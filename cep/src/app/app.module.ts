@@ -12,6 +12,8 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { FooterComponent } from './navigation/footer/footer.component';
 import { GridPresse } from './home/grid-presse/grid-presse.component';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { LeafMapComponent } from '../carto/leaf-map/leaf-map.component';
 
 @NgModule({
   declarations: [
@@ -21,14 +23,16 @@ import { GridPresse } from './home/grid-presse/grid-presse.component';
     HeaderComponent,
     SidenavListComponent,
     FooterComponent,
-    GridPresse
+    GridPresse,
+    LeafMapComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    RoutingModule
+    RoutingModule,
+    LeafletModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
