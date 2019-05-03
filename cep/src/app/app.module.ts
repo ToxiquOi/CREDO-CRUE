@@ -14,6 +14,7 @@ import { FooterComponent } from './navigation/footer/footer.component';
 import { GridPresse } from './home/grid-presse/grid-presse.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import { LeafMapComponent } from '../carto/leaf-map/leaf-map.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LeafMapComponent } from '../carto/leaf-map/leaf-map.component';
     MaterialModule,
     FlexLayoutModule,
     RoutingModule,
-    LeafletModule.forRoot()
+    LeafletModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

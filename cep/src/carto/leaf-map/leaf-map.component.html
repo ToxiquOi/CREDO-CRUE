@@ -1,3 +1,14 @@
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="form-group">
+                <label for="city">Search City : </label>
+                <input type="text" id="city" name="city" class="form-control" ngModel>
+            </div>
+            <button class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+</div>
 <div style="height: 600px;"
      leaflet
      [leafletOptions]="this.options"

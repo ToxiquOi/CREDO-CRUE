@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {circle, Control, latLng, LayerOptions, MapOptions, Marker, polygon, tileLayer} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/dist/leaflet/layers/control/leaflet-control-layers-config.model';
-import LayersOptions = Control.LayersOptions;
-import {Observer} from "rxjs";
+import {LeafletServiceService} from '../services/leaflet-service.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-leaf-map',
@@ -32,9 +32,14 @@ export class LeafMapComponent implements OnInit {
 
   private pointTab: Marker[];
 
-  constructor() { }
+  constructor(private leafService: LeafletServiceService) {
+  }
 
   ngOnInit() {
   }
 
+  public onSubmit(form: NgForm) {
+    console.log(form.value);
+    this.leafService.importCity(form.value.city);
+  }
 }
