@@ -1,9 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MaterialModule } from './materialmodule/material.module';
+import {MaterialModule} from './materialmodule/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { HomeComponent } from './home/home.component';
@@ -15,6 +14,14 @@ import { GridPresse } from './home/grid-presse/grid-presse.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import { LeafMapComponent } from '../carto/leaf-map/leaf-map.component';
 import {FormsModule} from '@angular/forms';
+import {LoginComponent} from './login/login.component';
+import {ReactiveFormsModule} from '@angular/forms';
+
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {MatCardModule, MatInputModule, MatProgressSpinnerModule} from '@angular/material';
+import {LoaderComponent} from './loader/loader.component';
+import {LoaderService} from './services/loader/loader.service';
+import {LoaderInterceptor} from './interceptors/loader/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +32,9 @@ import {FormsModule} from '@angular/forms';
     SidenavListComponent,
     FooterComponent,
     GridPresse,
-    LeafMapComponent
+    LeafMapComponent,
+    LoginComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -33,10 +42,19 @@ import {FormsModule} from '@angular/forms';
     MaterialModule,
     FlexLayoutModule,
     RoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatCardModule,
+    MatInputModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
     LeafletModule.forRoot(),
     FormsModule
   ],
-  providers: [],
+  providers: [LoaderService,
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
