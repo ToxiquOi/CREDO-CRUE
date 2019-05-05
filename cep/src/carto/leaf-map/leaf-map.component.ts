@@ -39,7 +39,5 @@ export class LeafMapComponent implements OnInit {
   }
 
   public onSubmit(form: NgForm) {
-    console.log(form.value);
-    this.leafService.importCity(form.value.city);
   }
 }

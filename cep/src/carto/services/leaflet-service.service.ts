@@ -1,43 +1,50 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observer} from 'rxjs';
 import {Circle, Marker} from 'leaflet';
-import {NgForm} from "@angular/forms";
+import {GeoPointModel} from '../Models/GeoPoint.model';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeafletServiceService {
 
+  private endPoint: string = document.location.protocol + '//' + document.location.hostname + ':8081/';
+
   private markerTab: Marker[];
-  private pointTab: Circle[];
+  private geoPointTab: GeoPointModel[];
 
   constructor(private httpClient: HttpClient) {
     this.markerTab = [];
   }
 
-  public importCity(city: string) {
-    const re = new RegExp(city + ' France');
-    const res = this.httpClient.get('https://nominatim.openstreetmap.org/search?city=' + city + '&format=json');
-    res.forEach(value => {
-      if (re.test(value[8])) {
-        console.log('city found');
-      } else {
-        console.log('regex not match');
-      }
-    });
-
+  private responseData(res: Response) {
+    return res || {};
   }
 
-  // public getAllMkFromDb() {
-  //   this.httpClient.get('http://localhost:8081/map/marker', {responseType: 'json'});
-  //   /*
-  //       WORKKKK
-  //    */
-  // }
+  public searchAllGeoPoints(): Observable<any> {
+    return this.httpClient.get(this.endPoint + 'geo_points').pipe(map(this.responseData));
+  }
 
-  public addMarker(mk: Marker) {
-    this.markerTab.push(mk);
+  public async searchCity(search?: string, pageNb?: number, itemPpage?: number) {
+    let paramReq = '';
+
+    if (search || pageNb || itemPpage) {
+      if (search) {
+        paramReq += 'name=' + search + '&';
+      }
+      if (pageNb) {
+        paramReq += 'page=' + pageNb + '&';
+      }
+      if (itemPpage) {
+        paramReq += 'itemsPerPage=' + itemPpage + '&';
+      }
+    }
+
+    await this.httpClient.get((paramReq !== '') ? this.endPoint + 'cities?' + paramReq : this.endPoint + 'cities').pipe(
+        map(this.responseData));
   }
 
 
