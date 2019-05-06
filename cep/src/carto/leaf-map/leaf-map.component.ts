@@ -1,8 +1,11 @@
+/* tslint:disable:one-line */
 import { Component, OnInit } from '@angular/core';
 import {circle, Control, latLng, LayerOptions, MapOptions, Marker, polygon, tileLayer} from 'leaflet';
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/dist/leaflet/layers/control/leaflet-control-layers-config.model';
 import {LeafletServiceService} from '../services/leaflet-service.service';
 import {NgForm} from '@angular/forms';
+import {CitiesModel} from "../Models/Cities.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-leaf-map',
@@ -32,10 +35,30 @@ export class LeafMapComponent implements OnInit {
 
   private pointTab: Marker[];
 
+  private cities: CitiesModel[];
+
   constructor(private leafService: LeafletServiceService) {
   }
 
   ngOnInit() {
+    this.getCities();
+  }
+
+  public getCities(params?: any[]) {
+    if (params) {
+      this.leafService.searchCity(params[0], params[1], params[2]).then((city: Observable<CitiesModel[]>) => {
+        city.forEach( cty => {
+          this.cities = cty;
+        });
+      });
+    }
+    else {
+      this.leafService.searchCity().then((city: Observable<CitiesModel[]>) => {
+        city.forEach( cty => {
+          this.cities = cty;
+        });
+      });
+    }
   }
 
   public onSubmit(form: NgForm) {

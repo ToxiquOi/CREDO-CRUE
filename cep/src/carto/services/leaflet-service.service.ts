@@ -24,8 +24,20 @@ export class LeafletServiceService {
     return res || {};
   }
 
-  public searchAllGeoPoints(): Observable<any> {
-    return this.httpClient.get(this.endPoint + 'geo_points').pipe(map(this.responseData));
+  public async searchAllGeoPoints(pageNb?: number, itemPpage?: number) {
+    let paramReq = '';
+
+    if (pageNb || itemPpage) {
+      if (pageNb) {
+        paramReq += 'page=' + pageNb + '&';
+      }
+      if (itemPpage) {
+        paramReq += 'itemsPerPage=' + itemPpage + '&';
+      }
+    }
+
+    return await this.httpClient.get( (paramReq !== '') ? this.endPoint + paramReq : this.endPoint + 'geo_points').pipe(
+        map(this.responseData));
   }
 
   public async searchCity(search?: string, pageNb?: number, itemPpage?: number) {
@@ -43,7 +55,7 @@ export class LeafletServiceService {
       }
     }
 
-    await this.httpClient.get((paramReq !== '') ? this.endPoint + 'cities?' + paramReq : this.endPoint + 'cities').pipe(
+    return await this.httpClient.get((paramReq !== '') ? this.endPoint + 'cities?' + paramReq : this.endPoint + 'cities').pipe(
         map(this.responseData));
   }
 
