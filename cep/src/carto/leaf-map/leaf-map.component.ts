@@ -4,8 +4,9 @@ import {circle, Control, latLng, LayerOptions, MapOptions, Marker, polygon, tile
 import {LeafletControlLayersConfig} from '@asymmetrik/ngx-leaflet/dist/leaflet/layers/control/leaflet-control-layers-config.model';
 import {LeafletServiceService} from '../services/leaflet-service.service';
 import {NgForm} from '@angular/forms';
-import {CitiesModel} from "../Models/Cities.model";
-import {Observable} from "rxjs";
+import {CitiesModel} from '../Models/Cities.model';
+import {Observable} from 'rxjs';
+import {GeoPointModel} from '../Models/GeoPoint.model';
 
 @Component({
   selector: 'app-leaf-map',
@@ -37,6 +38,8 @@ export class LeafMapComponent implements OnInit {
 
   private cities: CitiesModel[];
 
+  private geoPoints: GeoPointModel[];
+
   constructor(private leafService: LeafletServiceService) {
   }
 
@@ -56,6 +59,23 @@ export class LeafMapComponent implements OnInit {
       this.leafService.searchCity().then((city: Observable<CitiesModel[]>) => {
         city.forEach( cty => {
           this.cities = cty;
+        });
+      });
+    }
+  }
+
+  public getGeoPoint(params?: any[]) {
+    if (params) {
+      this.leafService.searchGeoPoints(params[0], params[1]).then((geoPoints: Observable<GeoPointModel[]>) => {
+        geoPoints.forEach( (gp: GeoPointModel[]) => {
+          this.geoPoints = gp;
+        });
+      });
+    }
+    else {
+      this.leafService.searchCity().then((geoPoints: Observable<GeoPointModel[]>  ) => {
+        geoPoints.forEach( (gp: GeoPointModel[]) => {
+          this.geoPoints = gp;
         });
       });
     }

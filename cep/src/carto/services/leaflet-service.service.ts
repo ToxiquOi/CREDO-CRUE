@@ -24,7 +24,7 @@ export class LeafletServiceService {
     return res || {};
   }
 
-  public async searchAllGeoPoints(pageNb?: number, itemPpage?: number) {
+  public async searchGeoPoints(pageNb?: number, itemPpage?: number) {
     let paramReq = '';
 
     if (pageNb || itemPpage) {
